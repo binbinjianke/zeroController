@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.Hashtable;
 import java.util.Properties;
+
+import org.apache.log4j.Logger;
 /**
  * 加载Properties配置文件类
  * @author bob yang
@@ -12,6 +14,8 @@ import java.util.Properties;
  */
 public class ConfigFile
 {
+	private static Logger logger = Logger.getLogger(ConfigFile.class);
+	
 	public static Properties config = new Properties();
 
 	private static Hashtable<String, Properties> instanceCache  = new Hashtable<String, Properties>();
@@ -34,7 +38,7 @@ public class ConfigFile
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			logger.error("加载配置文件异常,原因:"+e.toString());
 		}
 		finally
 		{
@@ -46,7 +50,7 @@ public class ConfigFile
 				}
 				catch (Exception e)
 				{
-					e.printStackTrace();
+					logger.error("关闭文件流时出现异常,原因:"+e.toString());
 				}
 			}
 		}

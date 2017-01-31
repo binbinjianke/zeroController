@@ -270,9 +270,9 @@ public class DeskUICountdown extends JFrame
 					}
 					catch(Exception e)
 					{
-						JOptionPane.showMessageDialog(jf, "异常(PSA)：" + e.getMessage(), "系统提示",
+						JOptionPane.showMessageDialog(jf, "异常(PSA)：" + e.toString(), "系统提示",
 								JOptionPane.ERROR_MESSAGE);
-						logger.error("异常(PSA)：" + e.getMessage());
+						logger.error("异常(PSA)：" + e.toString());
 						psbtn1.setEnabled(true);
 					}
 				}
@@ -319,9 +319,9 @@ public class DeskUICountdown extends JFrame
 					}
 					catch(Exception e)
 					{
-						JOptionPane.showMessageDialog(jf, "异常(PSB)：" + e.getMessage(), "系统提示",
+						JOptionPane.showMessageDialog(jf, "异常(PSB)：" + e.toString(), "系统提示",
 								JOptionPane.ERROR_MESSAGE);
-						logger.error("异常(PSB)：" + e.getMessage());
+						logger.error("异常(PSB)：" + e.toString());
 						psbtn2.setEnabled(true);
 					}
 				}
@@ -368,9 +368,9 @@ public class DeskUICountdown extends JFrame
 					}
 					catch(Exception e)
 					{
-						JOptionPane.showMessageDialog(jf, "异常(VRA)" + e.getMessage(), "系统提示",
+						JOptionPane.showMessageDialog(jf, "异常(VRA)" + e.toString(), "系统提示",
 								JOptionPane.ERROR_MESSAGE);
-						logger.error("异常(VRA)：" + e.getMessage());
+						logger.error("异常(VRA)：" + e.toString());
 						VRbtn1.setEnabled(true);
 					}
 				}
@@ -417,9 +417,9 @@ public class DeskUICountdown extends JFrame
 					}
 					catch(Exception e)
 					{
-						JOptionPane.showMessageDialog(jf, "异常(VRB)：" + e.getMessage(), "系统提示",
+						JOptionPane.showMessageDialog(jf, "异常(VRB)：" + e.toString(), "系统提示",
 								JOptionPane.ERROR_MESSAGE);
-						logger.error("异常(VRB)：" + e.getMessage());
+						logger.error("异常(VRB)：" + e.toString());
 						VRbtn2.setEnabled(true);
 					}
 				}
