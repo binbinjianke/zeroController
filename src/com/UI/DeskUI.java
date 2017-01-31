@@ -164,7 +164,20 @@ public class DeskUI extends JFrame
 		figuretitle.setBounds(40, -50, 600, 200);
 		version.setBounds(250, -50, 200, 200);
 		logo.setBounds(30, 250, 300, 300);
-
+		
+		//会员模块
+		JLabel VIPTip = new JLabel("输入会员卡编号查询信息：");
+		JTextField cardID = new JTextField();
+		JButton btnFind = new JButton("查询");
+		JButton btnSign = new JButton("注册");
+		JButton btnExport = new JButton("数据导出");
+		
+		VIPTip.setBounds(50, 110, 180, 20);
+		cardID.setBounds(50, 140, 180, 30);
+		btnFind.setBounds(50, 180, 80, 30);
+		btnSign.setBounds(140, 180, 80, 30);
+		btnExport.setBounds(50, 220, 140, 30);
+		
 		cp.add(figuretitle);
 		cp.add(version);
 		cp.add(ps4Jl1);
@@ -192,6 +205,12 @@ public class DeskUI extends JFrame
 		cp.add(VRTimeView2);
 		cp.add(VRbtn2);
 		cp.add(stopbtn4);
+		cp.add(VIPTip);
+		cp.add(cardID);
+		cp.add(btnFind);
+		cp.add(btnSign);
+		cp.add(btnExport);
+		
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		try
@@ -203,8 +222,8 @@ public class DeskUI extends JFrame
 		}
 		catch (Exception e)
 		{
-			logger.error("异常：" + e.getMessage());
-			JOptionPane.showMessageDialog(jf, "异常：" + e.getMessage(), "系统提示", JOptionPane.ERROR_MESSAGE);
+			logger.error("异常：" + e.toString());
+			JOptionPane.showMessageDialog(jf, "异常：" + e.toString(), "系统提示", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

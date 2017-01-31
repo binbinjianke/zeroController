@@ -65,6 +65,7 @@ public class ZeroTimer
 				}
 				catch(Exception e)
 				{
+					logger.error(equipment.getText()+"运行出现异常！原因:"+e.toString());
 					throw new RuntimeException(equipment.getText()+"运行出现异常！");
 				}
 				

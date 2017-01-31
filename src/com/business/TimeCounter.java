@@ -70,7 +70,7 @@ public class TimeCounter extends Thread
 					Thread.sleep(1000);
 				} catch (Exception e) 
 				{
-					logger.error("计时过程中出现异常！原因为："+e.getMessage());
+					logger.error("计时过程中出现异常！原因为："+e.toString());
 					throw new RuntimeException("计时过程中出现异常！");
 				}
 			}
