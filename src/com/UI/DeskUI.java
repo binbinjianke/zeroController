@@ -49,7 +49,7 @@ public class DeskUI extends JFrame
 
 	private JFrame jf;
 
-	public void CreateUI(String title, String projectPath)
+	public void CreateUI(String title, final String projectPath)
 	{
 		logger.info("Start tools!");
 		ConfigFile cf = new ConfigFile();
@@ -225,5 +225,12 @@ public class DeskUI extends JFrame
 			logger.error("异常：" + e.toString());
 			JOptionPane.showMessageDialog(jf, "异常：" + e.toString(), "系统提示", JOptionPane.ERROR_MESSAGE);
 		}
+		btnSign.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				new SignUI(DeskUI.this,projectPath).setVisible(true);
+			}
+		});
 	}
 }
