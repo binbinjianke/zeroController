@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
@@ -55,9 +56,9 @@ public class SignUI extends JDialog
     	JLabel phonelabel = new JLabel("phonenumber：");
     	JLabel createrlabel = new JLabel("创建者：");
     	//文字框
-    	JTextField idjf = new JTextField();
-    	JTextField namejf = new JTextField();
-    	JTextField phonejf = new JTextField();
+    	final JTextField idjf = new JTextField();
+    	final JTextField namejf = new JTextField();
+    	final JTextField phonejf = new JTextField();
     	//下拉框
     	String[] levelName = {config.getProperty("vip"),config.getProperty("svip")};
     	String[] createrName = {config.getProperty("clerkA"),config.getProperty("clerkB"),config.getProperty("clerkC"),config.getProperty("clerkD")};		
@@ -100,8 +101,51 @@ public class SignUI extends JDialog
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				
+				//flag:success 注册成功，faild 注册失败
+				String flag = "faild";
+				try
+				{
+					checkParam(idjf.getText(),phonejf.getText(),namejf.getText());
+				}
+				catch (Exception e1)
+				{
+					logger.error(e1.toString());
+					JOptionPane.showMessageDialog(null, e1.getMessage(), "系统提示", JOptionPane.INFORMATION_MESSAGE);
+				}
+				if("success".equals(flag))
+				{
+				   dispose();
+				}
 			}
 		});
     }
+
+	protected void checkParam(String id, String phone, String name) throws Exception
+	{
+		// TODO Auto-generated method stub
+		if("".equals(id))
+		{
+			throw new RuntimeException("请输入会员卡ID");
+		}
+		if("".equals(name))
+		{
+			throw new RuntimeException("请输入会员姓名");
+		}
+		if("".equals(phone))
+		{
+			throw new RuntimeException("请输入手机号");
+		}
+		if(!id.matches("[0-9]+"))
+		{
+			throw new RuntimeException("输入会员id有误，只能输入数字");
+		}
+		if(name.matches("[\\p{Punct}\\p{Blank}]"))
+		{
+			throw new RuntimeException("输入会员姓名有误，请检查是否含有特殊字符");
+		}
+		if(!id.matches("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$"))
+		{
+			throw new RuntimeException("输入会员手机号有误，请输入正确手机号");
+		}
+	}
 }
