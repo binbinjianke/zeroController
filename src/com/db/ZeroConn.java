@@ -3,12 +3,12 @@ package com.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-//import org.apache.log4j.Logger;
+import org.apache.log4j.Logger;
 
 
 public class ZeroConn
 {
-//   private static Logger logger = Logger.getLogger(ZeroConn.class);
+   private static Logger logger = Logger.getLogger(ZeroConn.class);
    Connection con;
    public Connection getConnection()
    {
@@ -17,25 +17,25 @@ public class ZeroConn
 	   try
 	   {
 		   Class.forName("com.mysql.jdbc.Driver");
-//		   logger.info("数据库驱动加载完成！");
-		   System.out.println("数据库驱动加载完成！");
+		   logger.info("数据库驱动加载完成！");
+		   //System.out.println("数据库驱动加载完成！");
 	   }
 	   catch(Exception e)
 	   {
-//		   logger.error("数据库驱动加载失败，原因："+e.getMessage());
-		   System.out.println("数据库驱动加载失败，原因："+e.toString());
+		   logger.error("数据库驱动加载失败，原因："+e.getMessage());
+		   //System.out.println("数据库驱动加载失败，原因："+e.toString());
 		   e.printStackTrace();
 	   }
 	   try
 	   {
 		   con = DriverManager.getConnection(url);
-//		   logger.info("数据库连接成功！");
-		   System.out.println("数据库连接成功！");
+		   logger.info("数据库连接成功！");
+		   //System.out.println("数据库连接成功！");
 	   }
 	   catch(Exception e)
 	   {
-//		   logger.error("数据库连接失败，原因："+e.getMessage());
-		   System.out.println("数据库连接失败，原因："+e.toString());
+		   logger.error("数据库连接失败，原因："+e.getMessage());
+		   //System.out.println("数据库连接失败，原因："+e.toString());
 		   e.printStackTrace();
 	   }
 	   return con;

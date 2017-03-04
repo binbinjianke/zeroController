@@ -4,6 +4,11 @@ import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.JButton;
@@ -18,6 +23,7 @@ import org.apache.log4j.Logger;
 
 import com.UI.DeskUI;
 import com.business.VIPBean;
+import com.db.ZeroConn;
 
 public class SignUI extends JDialog
 {
@@ -68,8 +74,8 @@ public class SignUI extends JDialog
     	ComboBox creatercb = new ComboBox();
     	creatercb.setSelectedItem(config.getProperty("clerkA"));
     	creatercb.setDropGroup(createrName);
-    	JComboBox<String> leveljc = new JComboBox<>(levelcb);
-    	JComboBox<String> createrjc = new JComboBox<>(createrName);
+    	final JComboBox<String> leveljc = new JComboBox<>(levelcb);
+    	final JComboBox<String> createrjc = new JComboBox<>(createrName);
     	//完成按钮
     	JButton btnsave = new JButton("完成注册");
     	
@@ -103,14 +109,60 @@ public class SignUI extends JDialog
 			{
 				//flag:success 注册成功，faild 注册失败
 				String flag = "faild";
+				String sql = "";
 				try
 				{
 					checkParam(idjf.getText(),phonejf.getText(),namejf.getText());
+					vipRecord.setCardID(Integer.parseInt(idjf.getText()));
+					vipRecord.setName(namejf.getText());
+					vipRecord.setVIPlevel(leveljc.getSelectedIndex());
+					vipRecord.setPhonenumber(phonejf.getText());
+					vipRecord.setCreater((String)createrjc.getSelectedItem());
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					Date nowDate = sdf.parse(sdf.format(new Date()));
+					vipRecord.setUpdatetime(nowDate);
+					ZeroConn zerocon = new ZeroConn();
+					Connection con = zerocon.getConnection();
+					Statement stmt = con.createStatement();
+					sql = "Select * from zerovip where name='"+vipRecord.getName()+"' and phonenumber='"+vipRecord.getPhonenumber()+"'";
+					ResultSet res = stmt.executeQuery(sql);
+					if(res.next())
+					{
+						logger.info(res.getString("name")+"该会员已注册！");
+						throw new RuntimeException(res.getString("name")+"该会员已注册！");
+					}
+					else
+					{
+						String dateTime = sdf.format(vipRecord.getUpdatetime());
+						sql = "insert into zerovip values("
+					              +vipRecord.getCardID()+",'"
+					              +vipRecord.getName()+"',"
+								  +vipRecord.getVIPlevel()+",'"
+					              +vipRecord.getPhonenumber()+"','"
+								  +vipRecord.getCreater()+"','"
+					              +dateTime+"')";
+						//执行成功返回false
+						if(!stmt.execute(sql))
+						{
+							flag="success";
+							logger.info(vipRecord.getName()+"信息已保存！");
+							JOptionPane.showMessageDialog(null, vipRecord.getName()+"信息已保存！", "系统提示", JOptionPane.INFORMATION_MESSAGE);
+						}
+					}
+					//PreparedStatement preparedstmt = con.prepareStatement(sql); 
 				}
 				catch (Exception e1)
 				{
 					logger.error(e1.toString());
-					JOptionPane.showMessageDialog(null, e1.getMessage(), "系统提示", JOptionPane.INFORMATION_MESSAGE);
+					if(e1.toString().contains("java.lang.RuntimeException"))
+					{
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "系统提示", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null, e1.toString(), "系统提示", JOptionPane.INFORMATION_MESSAGE);
+					}
+					
 				}
 				if("success".equals(flag))
 				{
@@ -127,23 +179,23 @@ public class SignUI extends JDialog
 		{
 			throw new RuntimeException("请输入会员卡ID");
 		}
+		if(!id.matches("[0-9]+"))
+		{
+			throw new RuntimeException("输入会员ID有误，只能输入数字");
+		}
 		if("".equals(name))
 		{
 			throw new RuntimeException("请输入会员姓名");
-		}
-		if("".equals(phone))
-		{
-			throw new RuntimeException("请输入手机号");
-		}
-		if(!id.matches("[0-9]+"))
-		{
-			throw new RuntimeException("输入会员id有误，只能输入数字");
 		}
 		if(name.matches("[\\p{Punct}\\p{Blank}]"))
 		{
 			throw new RuntimeException("输入会员姓名有误，请检查是否含有特殊字符");
 		}
-		if(!id.matches("^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$"))
+		if("".equals(phone))
+		{
+			throw new RuntimeException("请输入手机号");
+		}
+		if(!phone.matches("((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9])|(17[0-9]))\\d{8}"))
 		{
 			throw new RuntimeException("输入会员手机号有误，请输入正确手机号");
 		}
